@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Faculty Dashboard · Prof. Rahul M. Samant</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--ink:#14213d;--mute:#5b6783;--line:#e3e8f2;--brand:#1d3a8a;--brand2:#3b6fd8;--chip:#eef2fb;--hover:#f3f6fd;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1424;--card:#161e33;--ink:#e8ecf7;--mute:#9aa6c4;--line:#26314e;--brand:#7ea2f5;--brand2:#4f7de0;--chip:#1f2a48;--hover:#1b2542;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1424;--card:#161e33;--ink:#e8ecf7;--mute:#9aa6c4;--line:#26314e;--brand:#7ea2f5;--brand2:#4f7de0;--chip:#1f2a48;--hover:#1b2542;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif}
+.hero{background:linear-gradient(135deg,#14307a,#2f63c9);color:#fff;padding:28px 20px 64px}
+.wrap{max-width:1180px;margin:0 auto}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.hero h1{margin:0;font-size:26px;letter-spacing:.2px}
+.hero p{margin:4px 0 0;opacity:.85}
+.badge{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:6px 12px;border-radius:999px;font-size:13px}
+.tbtn{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:13px}
+.main{max-width:1180px;margin:-44px auto 40px;padding:0 20px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:0 2px 8px rgba(20,33,61,.06)}
+.stat b{display:block;font-size:24px;color:var(--brand)}.stat span{color:var(--mute);font-size:13px}
+.search{display:flex;gap:10px;margin-bottom:16px}
+.search input{flex:1;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:15px;min-width:0}
+.search input:focus{outline:2px solid var(--brand2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 2px 8px rgba(20,33,61,.05)}
+.card.wide{grid-column:1/-1}
+.card h2{margin:0 0 10px;font-size:16px;display:flex;align-items:center;gap:10px}
+.ic{width:32px;height:32px;border-radius:9px;background:var(--chip);display:grid;place-items:center;font-size:17px}
+.cnt{margin-left:auto;font-size:12px;color:var(--mute);background:var(--chip);padding:2px 9px;border-radius:999px;font-weight:500}
+.sub{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--mute);margin:12px 0 4px}
+.list{display:grid;gap:2px}
+.wide .list{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:4px 16px}
+a.row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;color:var(--ink);text-decoration:none}
+a.row:hover{background:var(--hover)}
+a.row .t{flex:1;min-width:0}
+a.row small{display:block;color:var(--mute);font-size:12px}
+.tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--chip);color:var(--brand);white-space:nowrap}
+.note{padding:8px 10px;color:var(--mute);font-size:13px}
+.empty{text-align:center;color:var(--mute);padding:40px 0;display:none}
+footer{text-align:center;color:var(--mute);font-size:12px;padding:0 20px 24px}
+</style>
+</head>
+<body>
+<div class="hero"><div class="wrap">
+<div class="top"><div><h1>Rahul M. Samant</h1><p>School of Engineering & Technology · DES Pune University · AY 2026–27</p></div>
+<div style="display:flex;gap:8px;align-items:center"><span class="badge">Sem I</span><button class="tbtn" id="tg" type="button">Theme</button></div></div>
+</div></div>
+<div class="main">
+<div class="stats" id="stats"></div>
+<div class="search"><input id="q" type="search" placeholder="Search links, forms, sheets, DI formats…" autocomplete="off"></div>
+<div class="grid" id="grid"></div>
+<div class="empty" id="empty">No links match your search.</div>
+</div>
+<footer>Prof. Rahul M. Samant · Links open in a new tab</footer>
+<script>
+var G="https://docs.google.com/",S=G+"spreadsheets/d/",DC=G+"document/d/";
+var DATA=[
+{t:"Quick Access",i:"⚡",w:1,items:[
+["ERP – EDUPlus","https://faculty.despu.edu.in/DashBoard","Web"],
+["Studium Portal","https://accreditation.studiumtech.in/login","Web"],
+["DESPU IT Service Request Form",G+"forms/d/e/1FAIpQLScTPLSmyiFLda9fEjCya0w-eXQYybKn2H8xTV9bLNDTjgrL2A/viewform?usp=publish-editor","Form"],
+["CS-B Attendance Entry",S+"1fnUIh8NtDSj4EVE5ezaoG3gN8gb9puQtC-gwdI9wjLM/edit?gid=1656130759#gid=1656130759","Sheet"],
+["EC-A Attendance Entry",S+"1AiyoVDxeUkKUkwqGq8hg1uo-H9QJ0RdNDM67Sb25cSE/edit?gid=1707515687#gid=1707515687","Sheet"],
+["FE 26-27 Roll Call (dynamically updated, by Omkar)",S+"1PgziCuSBW4LgMfPEHyBA1mhRksL-srHmap65sR15WUM/edit?gid=0#gid=0","Sheet"],
+["My Extracted CSE-B Attendance – Dashboard",S+"1PgziCuSBW4LgMfPEHyBA1mhRksL-srHmap65sR15WUM/edit?gid=0#gid=0","Sheet"],
+["Master Timetable 26-27 Sem I",S+"1vxeio9Z24HIzeOxdxkeB2APmo1L-jGPndPTUj49Mwy8/edit?gid=0#gid=0","Sheet"],
+["CR / BR Info – CSE B 26-27 Sem I",S+"1tCWzzsYwPDDkILFYj8V_NExLO1VWj8sl6D67Sk1_cEc/edit?usp=sharing","Sheet"],
+["SOET Students Data",S+"1A44vhNwVKpUQz1MWoVhgCUeHFEL8yy4lK_ujHtpTMfE/edit?gid=865879719#gid=865879719","Sheet"],
+["Admission Calling 26-27",S+"1kNNH0L6FDjBCfMRoeJpGYh-i46IVZLx7AWReH3YIZEE/edit?pli=1&gid=0#gid=0","Sheet"],
+["Admission Counselling 26-27",S+"1RKOEDb7qmlONkBqDJs9O10onAfvjlG4MfS8YvxSJ3sc/edit?gid=0#gid=0","Sheet"]]},
+{t:"Responsibilities",i:"🎯",items:[
+["__Class Teacher · FY CSE B"],
+["Class Drive Folder","https://drive.google.com/drive/folders/19NS_TJhO9DEVFqSURWquh7eYBZwMPG1s?usp=drive_link","Folder"],
+["Students & Parents Information",S+"1DT4h8xkojprXCYyaQJFrZi51E4Iby4TQAQnbKkpIbs8/edit?usp=sharing","Sheet"],
+["__Lab In-charge · Lab 301"],
+["Lab Details",S+"1z6dpdkP8HdU0PhgRehet5JC5rhXZdX56/edit?usp=sharing&ouid=116840020462293892341&rtpof=true&sd=true","Sheet"],
+["Lab Technician: Mr. Pramod","tel:9623626765","Call","9623626765"],
+["__BE Project Mentor · 2 Groups"],
+["BE 26-27 Project Meetings",DC+"1HLFIz5lnpc0IlVCxKwJaDpHwg7Rg5we7rmjru7gbn-8/edit?usp=drive_link","Doc"],
+["BE Project Assessment",S+"1d1kG3Vy8hGc5wWG5ih_hjB_yIafUJ78R/edit?usp=sharing&ouid=116840020462293892341&rtpof=true&sd=true","Sheet"],
+["__SE Field Project · 3 Groups"],
+["SE 26-27 Field Project Meetings",DC+"1tRE0C3DS5X2yXjPz6K6zdFVfInplSde_KL0cXP5sj2w/edit?usp=drive_link","Doc"],
+["SE Field Project Assessment",S+"1P5ynkdMl6oHuhKPS-myuAuRKdQz8-rcqhXAn5EOb1bo/edit?usp=sharing","Sheet"]]},
+{t:"Teaching · FCP",i:"📘",items:[
+["FCP CSE B – Lesson Plan (DI-16)",S+"1UbUqnvBnns9f79_hNqga3uBkD70WST1KL0QvmgbnasA/edit?usp=sharing","Sheet"],
+["FCP CSE A – Lesson Plan (DI-16)",S+"1UbUqnvBnns9f79_hNqga3uBkD70WST1KL0QvmgbnasA/edit?usp=sharing","Sheet"],
+["DI-24 FCP-ECE-A CA Sheet",S+"1hfsAewD1y4hvjAv57K326Z2kdrxY7A6R/edit?usp=sharing&ouid=116840020462293892341&rtpof=true&sd=true","Sheet"],
+["DI-24 FCP-CSE B CA Sheet",S+"1tfRpyfKp9VN5Ejjr9KrAJ74YrGdMeWodm9boDLyy2TA/edit","Sheet"],
+["DI-25 FCP Course File – RMS",DC+"15kEV_GW3D6dsV4IIWCrSYlNxSz9imtI8ZDxgyvXxpk4/edit?usp=sharing","Doc"]]},
+{t:"My ISO Formats (DIs)",i:"📑",items:[
+["__ISO Folders"],
+["ISO Formats – DIs (Drive Link 2)","https://drive.google.com/drive/u/7/folders/1Hnea9QmtI9nM5VzbXeciWfTCbg126zhn","Folder"],
+["__Formats"],
+["DI-16 Theory Lesson Plan",S+"1UbUqnvBnns9f79_hNqga3uBkD70WST1KL0QvmgbnasA/edit?usp=sharing","Sheet"],
+["Attendance Record · FY-CSE B 2026-27 Sem I",S+"1fnUIh8NtDSj4EVE5ezaoG3gN8gb9puQtC-gwdI9wjLM/edit?gid=1656130759#gid=1656130759","Sheet"],
+["DI-21 Class Attendance · CSE B",S+"1fnUIh8NtDSj4EVE5ezaoG3gN8gb9puQtC-gwdI9wjLM/edit?usp=sharing","Sheet"],
+["DI-24 Continuous Assessment (all subjects)",S+"1tfRpyfKp9VN5Ejjr9KrAJ74YrGdMeWodm9boDLyy2TA/edit","Sheet"],
+["DI-25 Course File – RMS",DC+"15kEV_GW3D6dsV4IIWCrSYlNxSz9imtI8ZDxgyvXxpk4/edit?usp=sharing","Doc"],
+["DI-27 Mentor-Mentee List"],
+["DI-28 Mentor-Mentee Meeting Records"],
+["DI-30 Internal Assessment Result",S+"13-PP4sX2SfTKMeuU_aY0Ep7yNe3jazaxMBTsL7O5H1I/edit?usp=sharing","Sheet"],
+["DI-31 Fast & Slow Learners · FY CSE B",S+"1uC_VVp7FOGEbTwh-a6e8SJ8itpMOJ0mMnVfJsqn9WSU/edit?usp=sharing","Sheet"]]},
+{t:"Class Teacher Records",i:"🗂️",items:[
+["DI-22 Monthly Attendance Sheet (Aug 1–31)",S+"1IPt7SNAu6HUhxHAMfBtPLsMvw6dVz9tUF_7-uwtszvA/edit?usp=sharing","Sheet"],
+["DI-31 Fast & Slow Learners",S+"1uC_VVp7FOGEbTwh-a6e8SJ8itpMOJ0mMnVfJsqn9WSU/edit?usp=sharing","Sheet"],
+["DI-30 Internal Assessment – Entire Class",S+"13-PP4sX2SfTKMeuU_aY0Ep7yNe3jazaxMBTsL7O5H1I/edit?usp=sharing","Sheet"],
+["DI-24 Continuous Assessment · FY CSE-B",S+"1tfRpyfKp9VN5Ejjr9KrAJ74YrGdMeWodm9boDLyy2TA/edit","Sheet"]]},
+{t:"Audit · Library · Other",i:"🧾",items:[
+["__Audit"],
+["Internal & External Audit Readiness Checklist",S+"15XFKJitCYi-7zhGadmElOwpXTsTC_zGtTZkRvBybrZY/edit?gid=0#gid=0","Sheet"],
+["__E-Library & Resources"],
+["Knimbus E-Library (DESPU)","https://despu.knimbus.com/portal/v2/default/home","Web"],
+["Turnitin Sign In","https://despu.turnitin.com/home/sign-in","Web"],
+["__Other"],
+["Guest Lectures at DESPU",DC+"1deP4UTC_iSW58uqkeGfHeaCZcLO0E3KF6_wBDLtR_Zc/edit?usp=sharing","Doc"],
+["Personal File",DC+"1YFD14Wux3fXLvjLBGseg2OlymIuIP3MxeGMVEN7OSZg/edit?usp=sharing","Doc"]]}
+];
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function render(q){
+ q=(q||"").toLowerCase().trim();var h="",n=0,sec=0;
+ DATA.forEach(function(s){
+  var out="",c=0,pend="";
+  s.items.forEach(function(it){
+   if(it[0].indexOf("__")===0){pend='<div class="sub">'+esc(it[0].slice(2))+'</div>';return}
+   if(!it[1]){if(!q){out+=pend+'<div class="note">'+esc(it[0])+' – link not added yet</div>';pend=""}return}
+   if(q&&(it[0]+" "+s.t+" "+it[2]).toLowerCase().indexOf(q)<0)return;
+   out+=pend+'<a class="row" href="'+it[1]+'" target="_blank" rel="noopener"><span class="t">'+esc(it[0])+(it[3]?'<small>'+it[3]+'</small>':'')+'</span><span class="tag">'+it[2]+'</span></a>';pend="";c++;
+  });
+  if(!c)return;n+=c;sec++;
+  h+='<section class="card'+(s.w?' wide':'')+'"><h2><span class="ic">'+s.i+'</span>'+esc(s.t)+'<span class="cnt">'+c+'</span></h2><div class="list">'+out+'</div></section>';
+ });
+ document.getElementById("grid").innerHTML=h;
+ document.getElementById("empty").style.display=n?"none":"block";
+}
+function stats(){
+ var u={},t={};DATA.forEach(function(s){s.items.forEach(function(it){if(it[1]&&it[0].indexOf("__")!==0){u[it[1]]=1;t[it[2]]=(t[it[2]]||0)+1}})});
+ var a=[[Object.keys(u).length,"Unique links"],[t.Sheet||0,"Sheets"],[t.Doc||0,"Docs"],[(t.Folder||0)+(t.Form||0)+(t.Web||0),"Portals, folders & forms"]];
+ document.getElementById("stats").innerHTML=a.map(function(x){return '<div class="stat"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join("");
+}
+document.getElementById("q").addEventListener("input",function(e){render(e.target.value)});
+document.getElementById("tg").addEventListener("click",function(){
+ var r=document.documentElement,d=r.getAttribute("data-theme");
+ var dark=d?d==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+ r.setAttribute("data-theme",dark?"light":"dark");
+});
+stats();render("");
+</script>
+</body>
+</html>
